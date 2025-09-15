@@ -15,3 +15,14 @@ spec:
   {{ include "service.port.tcp" $port | nindent 4 }}
   {{- end }}
 {{ end }}
+{{ define "service.port.tcp" }}
+- port: {{ .port }}
+  targetPort: {{ .name }}
+  protocol: TCP
+{{ end }}
+
+{{ define "service.port.udp" }}
+- port: {{ .port }}
+  targetPort: {{ .name }}
+  protocol: UDP
+{{ end }}

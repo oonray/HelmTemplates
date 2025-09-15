@@ -31,7 +31,7 @@
     {{ include "container.port.tcp" $port }}
     {{- end }}
   volumeMounts:
-    {{- range $pvc := .pvc }}
+    {{- range $pvc := .volumes }}
         {{ include "container.volume" $pvc }}
     {{- end }}
 

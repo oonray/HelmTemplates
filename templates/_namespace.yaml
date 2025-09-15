@@ -1,0 +1,7 @@
+{{ define "namespace" }}
+{{ if .Values.namespace.env }}
+namespace: "{{ .Chart.Name }}-{{ .Values.environment }}"
+{{ else }}
+namespace: "{{ .Chart.Name }}"
+{{ end }}
+{{ end }}

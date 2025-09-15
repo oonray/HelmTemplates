@@ -1,11 +1,3 @@
-{{ define "namespace" }}
-{{ if .Values.namespace.env }}
-namespace: "{{ .Chart.Name }}-{{ .Values.environment }}"
-{{ else }}
-namespace: "{{ .Chart.Name }}"
-{{ end }}
-{{ end }}
-
 {{ define "labels" }}
 app: "{{ .Chart.Name }}"
 env: "{{ .Values.environment }}"
@@ -15,22 +7,4 @@ env: "{{ .Values.environment }}"
 {{ range $lbl := .labels }}
 {{ $lbl.key }}: {{ $lbl.value | quote}}
 {{ end }}
-{{ end }}
-
-{{ define "service.port.tcp" }}
-- port: {{ .port }}
-  targetPort: {{ .name }}
-  protocol: TCP
-{{ end }}
-
-{{ define "service.port.udp" }}
-- port: {{ .port }}
-  targetPort: {{ .name }}
-  protocol: UDP
-{{ end }}
-
-{{ define "pvc" }}
-- name: {{ .name }}
-  persistentVolumeClaim:
-    claimName: {{ .claim }}
 {{ end }}
