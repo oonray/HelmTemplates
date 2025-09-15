@@ -1,4 +1,5 @@
 {{ define "namespace" }}
+{{ if .Values.namespace.env }}
 kind: Namespace
 apiVersion: v1
 metadata:
@@ -12,4 +13,5 @@ metadata:
   name: {{ .Chart.Name }}
   labels:
 {{- include "labels" . | nindent 4 }}
+{{ end }}
 {{ end }}
