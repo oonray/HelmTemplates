@@ -1,4 +1,4 @@
-name: Docker helm chart kali
+name: Docker helm chart templates
 
 on:
   workflow_dispatch:
