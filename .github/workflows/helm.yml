@@ -3,7 +3,7 @@ name: Publish to HELM
 on:
   workflow_call:
     inputs:
-      name: 
+      name:
         required: true
         type: string
     secrets:

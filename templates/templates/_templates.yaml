@@ -7,7 +7,7 @@ namespace: "{{ .Chart.Name }}"
 {{ end }}
 
 {{ define "labels" }}
-app: "{{ .Chart.Name }}-kali-{{ .Values.environment }}"
+app: "{{ .Chart.Name }}"
 env: "{{ .Values.environment }}"
 {{ end }}
 

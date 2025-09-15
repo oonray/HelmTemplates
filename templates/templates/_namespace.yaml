@@ -1,0 +1,15 @@
+{{ define "namespace" }}
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}-{{ .Values.environment }}
+  labels:
+{{- include "labels" . | nindent 4 }}
+{{ else }}
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+{{- include "labels" . | nindent 4 }}
+{{ end }}
