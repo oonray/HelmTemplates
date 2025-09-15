@@ -11,7 +11,7 @@ jobs:
   package-kali-helm:
     uses: oonray/HelmTemplates/.github/workflows/helm.yml@main
     with:
-      path: .
+      name: templates
     secrets:
       username: ${{ secrets.DOCKERHUB_USERNAME }}
       password: ${{ secrets.DOCKERHUB_TOKEN }}
