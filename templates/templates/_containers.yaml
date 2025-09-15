@@ -1,0 +1,59 @@
+{{- define "container" }}
+- name: {{ .name | quote }}
+  image: {{ printf "%s:%s" .image.name .image.version | quote }}
+
+  {{- if hasKey . "tty" }}
+  tty: {{ .tty }}
+  {{- end }}
+
+  {{- if hasKey . "stdin" }}
+  tty: {{ .tty }}
+  {{- end }}
+
+  command: ["/usr/bin/zsh"]
+
+  {{- if hasKey . "command" }}
+  args: ["-c",{{ .command | quote}}
+  {{- else }}
+  args: ["-c","sleep infinity"]
+  {{- end }}
+
+  imagePullPolicy: {{ .pull }}
+  securityContext:
+  {{- if hasKey . "user" }}
+    runAsUser: {{ .user }}
+  {{- end }}
+  {{- if hasKey . "priveleged" }}
+    privileged: {{ .priveleged }}
+  {{- end }}
+  ports:
+    {{- range $port := .ports }}
+    {{ include "container.port.tcp" $port }}
+    {{- end }}
+  volumeMounts:
+    {{- range $pvc := .pvc }}
+        {{ include "container.volume" $pvc }}
+    {{- end }}
+
+{{- end }}
+
+{{- define "container.port.tcp" }}
+            - containerPort: {{ .port }}
+              name: {{ .name }}
+              protocol: TCP
+{{- end }}
+
+{{- define "container.port.udp" }}
+            - containerPort: {{ .port }}
+              name: {{ .name }}
+              protocol: UDP
+{{- end }}
+
+{{- define "container.volume" }}
+                - mountPath: {{ .path }}
+                  name: {{ .name }}
+  {{- if hasKey . "sub" }}
+                  subParh: {{ .sub }}
+  {{- end }}
+{{- end }}
+

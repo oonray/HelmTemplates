@@ -1,0 +1,17 @@
+name: Docker helm chart kali
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '*'
+      - '**'
+
+jobs:
+  package-kali-helm:
+    uses: oonray/HelmTemplates/.github/workflows/helm.yml@main
+    with:
+      path: .
+    secrets:
+      username: ${{ secrets.DOCKERHUB_USERNAME }}
+      password: ${{ secrets.DOCKERHUB_TOKEN }}

@@ -1,0 +1,17 @@
+{{ define "service" }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .cnt.name }}-service-{{ .env.Values.environment }}
+{{ include "namespace" .env | nindent 2 }}
+  labels:
+{{ include "labels" .env | nindent 4 }}
+spec:
+  selector:
+{{ include "labels" .env | nindent 4 }}
+  ports:
+  {{- range $port := .cnt.ports }}
+  {{ include "service.port.tcp" $port | nindent 4 }}
+  {{- end }}
+{{ end }}
