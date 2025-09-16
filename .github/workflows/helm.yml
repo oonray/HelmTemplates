@@ -21,8 +21,17 @@ jobs:
 
       - name: Set environment variables
         id: set-variables
+        env:
+          NAME: ${{ inputs.name }}
+          PATH: ${{ inputs.path }}
+          REPO: ${{ github.event.repository.name }}
         run: |
-          echo "VERSION=$(yq -r .version ${{ inputs.name }}/Chart.yaml)" >> "$GITHUB_OUTPUT"
+          cd $REPO \
+          && if [ -d $NAME ]];then cd $NAME fi \
+          && echo "VERSION=$(yq -r .version $NAME/Chart.yaml)" \
+          >> "$GITHUB_OUTPUT" \
+          && echo "VERSION=$(yq -r .version $REPO/Chart.yaml)" \
+          >> "$GITHUB_OUTPUT"
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -31,7 +40,18 @@ jobs:
           password: ${{ secrets.password }}
 
       - name: Package and push helm chart
+        env:
+          NAME: ${{ inputs.name }}
+          PACKAGE: ${{ inputs.name }}
+          PATH: ${{ inputs.path }}
+          REPO: ${{ github.event.repository.name }}
+          VERSION: ${{ steps.set-variables.outputs.VERSION }}
         run: |
-          helm dep build ${{ inputs.name }}
-          helm package ${{ inputs.name }}
-          helm push ./${{ inputs.name }}-${{ steps.set-variables.outputs.VERSION }}.tgz oci://registry-1.docker.io/oonray
+          cd $REPO \
+          && if [ -d $NAME ]];then \
+          export PACKAGE="$NAME"; \
+          cd $NAME \
+          fi \
+          && helm dep build $PACKAGE \
+          && helm package $PACKAGE \
+          && helm push ./${PACKAGE}-${VERSION}.tgz oci://registry-1.docker.io/oonray
