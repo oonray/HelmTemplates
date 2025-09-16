@@ -12,10 +12,11 @@
 
   {{- if hasKey . "command" }}
   command: ["/usr/bin/zsh"]
-  {{- if hasKey .command "args" }}
+    {{- if hasKey .command "args" }}
   args: ["-c",{{ .command | quote}}
-  {{- else }}
+    {{- else }}
   args: ["-c","sleep infinity"]
+    {{- end }}
   {{- end }}
 
   imagePullPolicy: {{ .pull }}
