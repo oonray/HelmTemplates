@@ -3,25 +3,26 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-{{- if .Values.namespace.env }}
+    {{- if .Values.namespace.env }}
   name: "{{ .Values.namespace.name }}-{{ .Values.environment }}"
-{{- else }}
+    {{- else }}
   name: "{{ .Values.namespace.name }}"
+    {{- end }}
   labels:
 {{ include "labels.environment" . | nindent 4 }}
 {{- else }}
 apiVersion: v1
 kind: Namespace
 metadata:
-{{- if .Values.namespace.env }}
+   {{- if .Values.namespace.env }}
   name: "{{ .Chart.Name }}-{{ .Values.environment }}"
-{{- else }}
+   {{- else }}
   name: "{{ .Chart.Name }}"
+   {{- end }}
   labels:
 {{ include "labels.environment" . | nindent 4 }}
 {{- end }}
 {{- end }}
-{{ end }}
 
 {{ define "namespace.tag" }}
 {{- if hasKey .Values.namespace "name" }}
