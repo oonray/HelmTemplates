@@ -26,7 +26,8 @@ jobs:
           PATH: ${{ inputs.path }}
           REPO: ${{ github.event.repository.name }}
         run: |
-          cd $REPO \
+          pwd \
+          && ls \
           && if [ -d $NAME ]];then cd $NAME; fi \
           && echo "VERSION=$(yq -r .version $NAME/Chart.yaml)" \
           >> "$GITHUB_OUTPUT" \
@@ -47,8 +48,7 @@ jobs:
           REPO: ${{ github.event.repository.name }}
           VERSION: ${{ steps.set-variables.outputs.VERSION }}
         run: |
-          cd $REPO \
-          && if [ -d $NAME ]];then \
+          if [ -d $NAME ]];then \
           export PACKAGE="$NAME"; cd $NAME; fi \
           && helm dep build $PACKAGE \
           && helm package $PACKAGE \
