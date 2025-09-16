@@ -1,42 +1,40 @@
 {{ define "namespace" }}
-{{ if (hasKey .Values.namespace "name") }}
+{{- if hasKey .Values.namespace "name" }}
 apiVersion: v1
 kind: Namespace
 metadata:
+{{- if .Values.namespace.env }}
+  name: "{{ .Values.namespace.name }}-{{ .Values.environment }}"
+{{- else }}
   name: "{{ .Values.namespace.name }}"
   labels:
 {{ include "labels.environment" . | nindent 4 }}
-{{ else if .Values.namespace.env}}
+{{- else }}
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: "{{ .Values.environment }}"
-  labels:
-{{ else if ((hasKey .Values.namespace "name") and .Values.namespace.env) }}
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: "{{ .Values.namespace.name }}-{{ .Values.environment }}"
-  labels:
-{{ include "labels.environment" . | nindent 4 }}
-{{ else }}
-apiVersion: v1
-kind: Namespace
-metadata:
+{{- if .Values.namespace.env }}
+  name: "{{ .Chart.Name }}-{{ .Values.environment }}"
+{{- else }}
   name: "{{ .Chart.Name }}"
   labels:
-{{ include "labels" . | nindent 4 }}
-{{ end }}
+{{ include "labels.environment" . | nindent 4 }}
+{{- end }}
+{{- end }}
 {{ end }}
 
 {{ define "namespace.tag" }}
-{{ if (hasKey .Values.namespace "name") }}
-namespace: "{{ .Values.namespace.name }}"
-{{ else if .Values.namespace.env }}
-namespace: "{{ .Values.environment }}"
-{{ else if ((hasKey .Values.namespace "name") and .Values.namespace.env) }}
+{{- if hasKey .Values.namespace "name" }}
+    {{- if .Values.namespace.env }}
 namespace: "{{ .Values.namespace.name }}-{{ .Values.environment }}"
-{{ else }}
+    {{- else }}
+namespace: "{{ .Values.namespace.name }}"
+    {{- end }}
+{{- else }}
+    {{- if .Values.namespace.env }}
+namespace: "{{ .Chart.Name }}-{{ .Values.environment }}"
+    {{- else }}
 namespace: "{{ .Chart.Name }}"
-{{ end }}
+    {{- end }}
+{{- end }}
 {{ end }}
