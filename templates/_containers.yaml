@@ -10,9 +10,9 @@
   tty: {{ .tty }}
   {{- end }}
 
-  command: ["/usr/bin/zsh"]
-
   {{- if hasKey . "command" }}
+  command: ["/usr/bin/zsh"]
+  {{- if hasKey .command "args" }}
   args: ["-c",{{ .command | quote}}
   {{- else }}
   args: ["-c","sleep infinity"]
