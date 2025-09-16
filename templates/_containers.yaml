@@ -54,7 +54,7 @@
                 - mountPath: {{ .path }}
                   name: {{ .name }}
   {{- if hasKey . "sub" }}
-                  subParh: {{ .sub }}
+                  subPath: {{ .sub }}
   {{- end }}
 {{- end }}
 
