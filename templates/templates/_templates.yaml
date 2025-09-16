@@ -1,5 +1,13 @@
 {{ define "labels" }}
+{{ include "labels.app" . }}
+{{ include "labels.environment" . }}
+{{ end }}
+
+{{ define "labels.app" }}
 app: "{{ .Chart.Name }}"
+{{ end }}
+
+{{ define "labels.environment" }}
 env: "{{ .Values.environment }}"
 {{ end }}
 
