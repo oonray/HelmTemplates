@@ -27,9 +27,7 @@ jobs:
           REPO: ${{ github.event.repository.name }}
         run: |
           if [[ -d $NAME ]];then cd $NAME; fi \
-          && echo "VERSION=$(yq -r .version $NAME/Chart.yaml)" \
-          >> "$GITHUB_OUTPUT" \
-          && echo "VERSION=$(yq -r .version $REPO/Chart.yaml)" \
+          && echo "VERSION=$(yq -r .version Chart.yaml)" \
           >> "$GITHUB_OUTPUT"
 
       - name: Login to Docker Hub
