@@ -27,7 +27,7 @@ jobs:
           REPO: ${{ github.event.repository.name }}
         run: |
           cd $REPO \
-          && if [ -d $NAME ]];then cd $NAME fi \
+          && if [ -d $NAME ]];then cd $NAME; fi \
           && echo "VERSION=$(yq -r .version $NAME/Chart.yaml)" \
           >> "$GITHUB_OUTPUT" \
           && echo "VERSION=$(yq -r .version $REPO/Chart.yaml)" \
@@ -49,9 +49,7 @@ jobs:
         run: |
           cd $REPO \
           && if [ -d $NAME ]];then \
-          export PACKAGE="$NAME"; \
-          cd $NAME \
-          fi \
+          export PACKAGE="$NAME"; cd $NAME; fi \
           && helm dep build $PACKAGE \
           && helm package $PACKAGE \
           && helm push ./${PACKAGE}-${VERSION}.tgz oci://registry-1.docker.io/oonray
