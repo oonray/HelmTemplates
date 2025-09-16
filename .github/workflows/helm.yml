@@ -27,5 +27,5 @@ jobs:
 
       - name: Package and push helm chart
         run: |
-          helm package
+          helm package .
           helm push ./*.tgz oci://registry-1.docker.io/oonray
