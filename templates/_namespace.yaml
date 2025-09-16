@@ -1,5 +1,5 @@
 {{ define "namespace" }}
-{{ if .Values.namespace.name }}
+{{ if hasKey .Values.namespace "name" }}
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -12,7 +12,7 @@ kind: Namespace
 metadata:
   name: "{{ .Values.environment }}"
   labels:
-{{ else if .Values.namespace.name and .Values.namespace.env}}
+{{ else if hasKey .Values.namespace "name" and .Values.namespace.env}}
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -30,11 +30,11 @@ metadata:
 {{ end }}
 
 {{ define "namespace.tag" }}
-{{ if .Values.namespace.name }}
+{{ if hasKey .Values.namespace "name" }}
 namespace: "{{ .Values.namespace.name }}"
 {{ else if .Values.namespace.env }}
 namespace: "{{ .Values.environment }}"
-{{ else if .Values.namespace.name and .Values.namespace.env}}
+{{ else if hasKey .Values.namespace "name" and .Values.namespace.env}}
 namespace: "{{ .Values.namespace.name }}-{{ .Values.environment }}"
 {{ else }}
 namespace: "{{ .Chart.Name }}"
