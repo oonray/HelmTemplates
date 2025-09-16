@@ -14,6 +14,10 @@ spec:
   {{- range $port := .cnt.ports }}
   {{ include "service.port.tcp" $port | nindent 4 }}
   {{- end }}
+  {{- if hasKey .env.Values "domain" }}
+  externalName: {{ .env.Chart.Name }}.{{ .env.Values.environment }}.{{ .env.Values.domain }}
+  type: ExternalName
+  {{- end }}
 {{ end }}
 {{ define "service.port.tcp" }}
 - port: {{ .port }}
