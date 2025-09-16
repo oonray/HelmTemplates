@@ -26,9 +26,7 @@ jobs:
           PATH: ${{ inputs.path }}
           REPO: ${{ github.event.repository.name }}
         run: |
-          pwd \
-          && ls \
-          && if [ -d $NAME ];then cd $NAME; fi \
+          if [ -d $NAME ];then cd $NAME; fi \
           && echo "VERSION=$(yq -r .version $NAME/Chart.yaml)" \
           >> "$GITHUB_OUTPUT" \
           && echo "VERSION=$(yq -r .version $REPO/Chart.yaml)" \
