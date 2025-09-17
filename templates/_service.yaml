@@ -17,6 +17,12 @@ spec:
   {{- if hasKey .env.Values "domain" }}
   externalName: {{ .env.Chart.Name }}.{{ .env.Values.environment }}.{{ .env.Values.domain }}
   type: ExternalName
+  {{- else }}
+    {{- if hasKey .cnt "service" }}
+        {{- if hasKey .cnt.service "type" }}
+  type: {{ .cnt.service.type }}
+        {{- end }}
+    {{- end }}
   {{- end }}
 {{ end }}
 {{ define "service.port.tcp" }}

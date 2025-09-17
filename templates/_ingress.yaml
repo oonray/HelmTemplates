@@ -1,11 +1,11 @@
 {{ define "ingress.traefik" }}
 ---
+{{ $Kind := "IngressRoute" }}
+{{- if .port.tcp }}
+{{ $Kind = "IngressRouteTCP" }}
+{{- end }}
 apiVersion: "traefik.io/v1"
-{{ if .port.tcp }}
-kind: "IngressRouteTCP"
-{{ else }}
-kind: "IngressRoute"
-{{ end }}
+kind: {{ $Kind }}
 metadata:
   name: "{{ .port.name }}-ingress-{{ .env.Values.environment }}"
 {{- include "namespace.tag" .env | nindent 2 }}
@@ -24,3 +24,5 @@ spec:
             port: {{ .port.port }}
 {{- include "namespace" .env | nindent 12 }}
 {{ end }}
+
+
