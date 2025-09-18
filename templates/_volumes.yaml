@@ -1,5 +1,25 @@
-{{ define "pvc" }}
+{{ define "volumes" }}
+{{- range $item := (index . 1) }}
+    {{- if eq $item.type "secret" }}
+{{ include "volume.secret" $item }}
+    {{- else }}
+{{ include "volume.pvc" . }}
+    {{ end }}
+{{ end }}
+{{ end }}
+
+{{ define "volume.pvc" }}
 - name: {{ .name }}
   persistentVolumeClaim:
     claimName: {{ .claim }}
+{{ end }}
+
+{{ define "volume.secret" }}
+{{- $env := index . 0}}
+{{- $item := index . 1}}
+- name: {{ $item.name }}
+  secret:
+    secretName: {{ $env.Chart.Name }}-{{ $item.name }}-{{ $env.Values.environment }}
+  items:
+  {{ $item.items | toYaml | nindent 6 }}
 {{ end }}

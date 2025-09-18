@@ -1,31 +1,26 @@
-# Default values for htb.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
+## values.yaml
+### General
+```yaml
+forward: 1
 environment: machines
-replicaCount:
-    kali: 1
-
 namespace:
   create: true
   env: false
 
-ingress:
-  create: true
-  domain: "example.com"
+domain: "example.com"
+```
+### Volumes
 
+```yaml
 volumes:
-    - name: htb-st
-      claim: htb-cl
-      path: /home/kali/storage
-      target: kali
-      type: pvc
-    - name: htb-st
-      claim: htb-cl
-      path: /home/kali/storage
-      target: kali
-      type: secret
+- name: htb-st
+  claim: htb-cl
+  path: /home/kali/storage
+  target: kali
+```
+### Container
 
+```yaml
 containers:
   - name: kali
     image:
@@ -61,27 +56,7 @@ containers:
     volumes:
       - path: /home/kali/storage
         name: htb-st
-  - name: vpn
-    image:
-      name: oonray/vpn
-      version: latest
-    priveleged: true
-    pull: Always
-    ports:
-      - name: socks
-        port: 1080
-        entrypoints:
-          - socks
-        tcp: true
-    volumes:
-      - path: /opt/conf/vpn/vpn.ovpn
-        name: vpn-config
-        sub: vpn.ovpn
-      - path: /etc/danted/danted.conf
-        name: vpn-config
-        sub: danted.conf
 
-forward: 1
 
 vpnFile: --set-file vpnFile=vpn.ovpn
 config:
@@ -108,3 +83,4 @@ config:
         isNet: false
         interface: eth0
         address:
+```

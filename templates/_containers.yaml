@@ -1,3 +1,9 @@
+{{ define "containers" }}
+{{- range $cnt := . }}
+{{ include "container" $cnt }}
+{{- end }}
+{{ end }}
+
 {{- define "container" }}
 - name: {{ .name | quote }}
   image: {{ printf "%s:%s" .image.name .image.version | quote }}

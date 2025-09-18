@@ -12,7 +12,7 @@ env: "{{ .Values.environment }}"
 {{ end }}
 
 {{ define "labels.extra" }}
-{{ range $lbl := .labels }}
-{{ $lbl.key }}: {{ $lbl.value | quote}}
-{{ end }}
+{{- if hasKey  .Values "lables" }}
+{{ toYaml .Values.lables }}
+{{- end }}
 {{ end }}

@@ -1,0 +1,23 @@
+{{ define "deploy" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-{{ .Values.environment }}
+{{ include "namespace.tag" . | nindent 2 }}
+  labels:
+{{ include "labels" . | nindent 4 }}
+  replicas: {{ .Values.replicaCount }}
+spec:
+  selector:
+    matchLabels:
+{{ include "labels" . | nindent 8 }}
+  template:
+    metadata:
+      labels:
+{{ include "labels" . | nindent 10 }}
+{{ end }}
+
+{{ define "deploy.dns" }}
+dnsConfig:
+{{ toYaml .Values.dnsConfig | nindent 4 }}
+{{ end }}
