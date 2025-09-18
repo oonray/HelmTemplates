@@ -16,3 +16,8 @@ env: "{{ .Values.environment }}"
 {{ toYaml .Values.lables }}
 {{- end }}
 {{ end }}
+
+{{ define "sysctls.forward" }}
+- name: net.ipv4.ip_forward
+  value: 1
+{{ end }}
