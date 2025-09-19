@@ -4,6 +4,7 @@
 {{ include "service" (list $ $cnt) }}
     {{- end }}
 {{ end }}
+{{ end }}
 
 {{ define "service" }}
 {{ $cnt := index . 1}}
