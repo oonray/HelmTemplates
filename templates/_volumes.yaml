@@ -1,7 +1,7 @@
 {{ define "volumes" }}
 {{- range $item := (index . 1) }}
     {{- if eq $item.type "secret" }}
-{{ include "volume.secret" (list $ $item) }}
+{{ include "volume.secret" (list (index $ 0) $item) }}
     {{- else }}
 {{ include "volume.pvc" $item }}
     {{ end }}
