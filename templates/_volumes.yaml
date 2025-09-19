@@ -10,7 +10,7 @@
 
 {{ define "volume" }}
 {{- $vol:= index . 1}}
-{{- include "resource.named" (slice (index . 0) "PersistentVolumeClaim" $vol.name ) | nindent 2 }}
+{{- include "resource.named" (slice (index . 0) "PersistentVolumeClaim" $vol.claim ) | nindent 2 }}
 spec:
   storageClassName: {{ $vol.class }}
   accessModes:

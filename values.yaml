@@ -22,13 +22,6 @@ volumes:
       class: longhorn
       access:
         - ReadWriteMany
-    - name: htb-st
-      claim: htb-cl
-      path: /home/kali/storage
-      type: secret
-      class: longhorn
-      access:
-        - ReadWriteMany
 
 containers:
   - name: kali
