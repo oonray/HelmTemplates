@@ -3,7 +3,7 @@
     {{- if hasKey $cnt "ports" }}
 {{ include "service" (list $ $cnt) }}
     {{- end }}
-{{ end }}
+{{- end }}
 {{ end }}
 
 {{ define "service" }}
@@ -22,6 +22,5 @@ spec:
   type: {{ $cnt.service.type }}
     {{- end }}
 {{- end }}
-    {{- end }}
 {{ end }}
 
