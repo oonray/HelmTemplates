@@ -1,7 +1,7 @@
 {{ define "volumes" }}
 {{- range $item := (index . 1) }}
     {{- if eq $item.type "secret" }}
-{{ include "volume.secret" ( $ $item) }}
+{{ include "volume.secret" (list $ $item) }}
     {{- else }}
 {{ include "volume.pvc" $item }}
     {{ end }}
@@ -9,7 +9,7 @@
 {{ end }}
 
 {{ define "volume" }}
-{{- $vol:= index . 1}}
+{{- $vol := index . 1}}
 {{- include "resource.named" (list (index . 0) "PersistentVolumeClaim" $vol.claim ) | nindent 2 }}
 spec:
   storageClassName: {{ $vol.class }}
