@@ -1,5 +1,5 @@
 {{ define "deploy" }}
-{{- include "resource" (slice . "Deployment" ) | nindent 2 }}
+{{- include "resource" (list . "Deployment" ) | nindent 2 }}
 spec:
   selector:
     matchLabels:

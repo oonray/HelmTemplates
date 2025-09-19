@@ -22,7 +22,7 @@ metadata:
 apiVersion: apps/v1
 kind: {{ index . 1 }}
 metadata:
-{{- include "metadata.named" (slice (index . 0) (index . 2)) | nindent 2 }}
+{{- include "metadata.named" (list (index . 0) (index . 2)) | nindent 2 }}
 {{- if eq (index . 1) "Deployment" }}
   replicas: {{ .Values.replicaCount }}
 {{- end }}

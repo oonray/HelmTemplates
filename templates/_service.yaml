@@ -1,13 +1,13 @@
 {{ define "services" }}
 {{- range $cnt := .Values.containers }}
-{{ include "service" (slice $ $cnt) }}
+{{ include "service" (list $ $cnt) }}
 {{- end }}
 {{ end }}
 
 {{ define "service" }}
 {{ $cnt := index . 1}}
 ---
-{{- include "resource" (slice . "Service" ) | nindent 2 }}
+{{- include "resource" (list . "Service" ) | nindent 2 }}
 spec:
   selector:
 {{ include "labels" (index . 0) | nindent 4 }}
