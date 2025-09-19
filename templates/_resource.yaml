@@ -4,7 +4,9 @@ kind: {{ index . 1 }}
 metadata:
 {{- include "resource.metadata" (index . 0) | nindent 2 }}
 {{- if eq (index . 1) "Deployment" }}
+{{ with (index 0 $ ) }}
   replicas: {{ .Values.replicaCount }}
+{{- end }}
 {{- end }}
 {{ end }}
 
