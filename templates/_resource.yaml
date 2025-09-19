@@ -38,7 +38,7 @@ labels:
 {{ end }}
 
 {{ define "resource.metadata.named" }}
-name: "{{ .Chart.Name }}-{{{ index . 1 }}-{{ .Values.environment }}"
+name: "{{ .Chart.Name }}-{{ index . 1 }}-{{ .Values.environment }}"
 {{- include "namespace.tag" (index . 0) }}
 labels:
 {{- include "labels" (index . 0) | nindent 2 }}

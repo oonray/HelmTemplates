@@ -11,6 +11,8 @@ spec:
 {{ end }}
 
 {{ define "deploy.dns" }}
+    {{- if hasKey .Values "dnsConfig" }}
 dnsConfig:
 {{ toYaml .Values.dnsConfig | nindent 4 }}
+    {{- end}}
 {{ end }}

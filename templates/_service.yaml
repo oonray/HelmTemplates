@@ -1,7 +1,8 @@
 {{ define "services" }}
 {{- range $cnt := .Values.containers }}
+    {{- if hasKey $cnt "ports" }}
 {{ include "service" (list $ $cnt) }}
-{{- end }}
+    {{- end }}
 {{ end }}
 
 {{ define "service" }}
@@ -20,5 +21,6 @@ spec:
   type: {{ $cnt.service.type }}
     {{- end }}
 {{- end }}
+    {{- end }}
 {{ end }}
 
