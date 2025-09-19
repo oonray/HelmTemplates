@@ -1,11 +1,23 @@
 {{ define "volumes" }}
 {{- range $item := (index . 1) }}
     {{- if eq $item.type "secret" }}
-{{ include "volume.secret" $item }}
+{{ include "volume.secret" ( $ $item) }}
     {{- else }}
-{{ include "volume.pvc" . }}
+{{ include "volume.pvc" $item }}
     {{ end }}
 {{ end }}
+{{ end }}
+
+{{ define "volume" }}
+{{- $vol:= index . 1}}
+{{- include "resource.named" (slice (index . 0) "PersistentVolumeClaim" $vol.name ) | nindent 2 }}
+spec:
+  storageClassName: {{ $vol.class }}
+  accessModes:
+{{ $vol.access | toYaml | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ $vol.size }}
 {{ end }}
 
 {{ define "volume.pvc" }}

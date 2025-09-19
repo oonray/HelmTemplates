@@ -5,19 +5,12 @@
 {{ end }}
 
 {{ define "service" }}
-{{ $env := index . 0}}
 {{ $cnt := index . 1}}
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ $env.Chart.Name }}-service-{{ $env.Values.environment }}
-{{ include "namespace.tag" $env | nindent 2 }}
-  labels:
-{{ include "labels" $env | nindent 4 }}
+{{- include "resource" (slice . "Service" ) | nindent 2 }}
 spec:
   selector:
-{{ include "labels" $env | nindent 4 }}
+{{ include "labels" (index . 0) | nindent 4 }}
   ports:
   {{- range $port := $cnt.ports }}
 {{ toYaml $port | nindent 4 }}

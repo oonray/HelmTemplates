@@ -1,12 +1,5 @@
 {{ define "deploy" }}
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ .Chart.Name }}-{{ .Values.environment }}
-{{ include "namespace.tag" . | nindent 2 }}
-  labels:
-{{ include "labels" . | nindent 4 }}
-  replicas: {{ .Values.replicaCount }}
+{{- include "resource" (slice . "Deployment" ) | nindent 2 }}
 spec:
   selector:
     matchLabels:
