@@ -21,11 +21,12 @@ metadata:
 {{ end }}
 
 {{ define "resource.named" }}
+{{- $kind := (index . 1) }}
 apiVersion: apps/v1
-kind: {{ index . 1 }}
+kind: {{ $kind }}
 metadata:
 {{- include "resource.metadata.named" (list (index . 0) (index . 2)) | nindent 2 }}
-{{- if eq (index . 1) "Deployment" }}
+{{- if eq $kind "Deployment" }}
   replicas: {{ .Values.replicaCount }}
 {{- end }}
 {{ end }}
@@ -38,8 +39,9 @@ labels:
 {{ end }}
 
 {{ define "resource.metadata.named" }}
-name: "{{ .Chart.Name }}-{{ index . 1 }}-{{ .Values.environment }}"
-{{- include "namespace.tag" (index . 0) }}
+{{- $env := (index . 0) }}
+name: "{{ $env.Chart.Name }}-{{ index . 1 }}-{{ $env.Values.environment }}"
+{{- include "namespace.tag" $env }}
 labels:
-{{- include "labels" (index . 0) | nindent 2 }}
+{{- include "labels" $env | nindent 2 }}
 {{ end }}
