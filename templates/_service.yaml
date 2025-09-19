@@ -15,7 +15,7 @@ spec:
 {{ include "labels" (index . 0) | nindent 4 }}
   ports:
   {{- range $port := $cnt.ports }}
-{{ toYaml $port | nindent 4 }}
+{{ include "service.port.tcp" $port | nindent 4 }}
   {{- end }}
 {{- if hasKey $cnt "service" }}
     {{- if hasKey $cnt.service "type" }}
@@ -24,3 +24,14 @@ spec:
 {{- end }}
 {{ end }}
 
+{{- define "service.port.tcp" }}
+            - port: {{ .port }}
+              targetPort: {{ .name }}
+              protocol: TCP
+{{- end }}
+
+{{- define "service.port.udp" }}
+            - port: {{ .port }}
+              targetPort: {{ .name }}
+              protocol: TCP
+{{- end }}
