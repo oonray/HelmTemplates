@@ -9,7 +9,7 @@
 {{ define "service" }}
 {{ $cnt := index . 1}}
 ---
-{{- include "resource.named" (list (index . 0) "Service" $cnt.name ) | nindent 2 }}
+{{- include "resource.named" (list (index . 0) "Service" $cnt.name ) }}
 spec:
   selector:
 {{ include "labels" (index . 0) | nindent 4 }}
