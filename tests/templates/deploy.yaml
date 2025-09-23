@@ -9,3 +9,28 @@
 {{- include "volumes" (list . .Values.volumes) | nindent 10  }}
     containers:
 {{- include "containers" .Values.containers | nindent 10 }}
+---
+{{ include "secret" (list $ "vpn-config") }}
+stringData:
+  vpn.ovpn: |
+{{ .Values.vpnFile | nindent 6 }}
+  danted.conf: |
+    logoutput: {{ .Values.config.dante.log }}
+    user.privileged: root
+    user.unprivileged: {{ .Values.config.dante.user }}
+
+    internal: {{ .Values.config.dante.network.internal  }} port=1080
+    external: {{ .Values.config.dante.network.external  }} 
+
+    socksmethod: {{ .Values.config.dante.network.method }}
+    clientmethod: {{ .Values.config.dante.network.method }}
+
+    client pass {
+        from: {{ .Values.config.dante.network.from }} to: {{ .Values.config.dante.network.to }}
+    }
+
+    socks pass {
+        from: {{ .Values.config.dante.network.from }} to: {{ .Values.config.dante.network.to }}
+    }
+---
+{{ include "services" . }}
