@@ -16,7 +16,11 @@ metadata:
 {{- $name = (printf "%s-%s" $env.Chart.Name $name) -}}
     {{- end }}
 {{- end }}
+{{- if (eq $kind "Secret") }}
+apiVersion: v1
+{{- else }}
 apiVersion: apps/v1
+{{- end }}
 kind: {{ $kind }}
 metadata:
 {{- include "resource.metadata.named" (list $env $name) | nindent 2 -}}
