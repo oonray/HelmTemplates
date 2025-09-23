@@ -1,11 +1,11 @@
 {{- include "deploy" . | trim }}
     spec:
-        replicas: {{ .Values.replicaCount -}}
+        replicas: {{ .Values.replicaCount }}
 {{- include "deploy.dns" . | trim | nindent 8 }}
         securityContext:
             sysctls:
 {{- include "sysctls.forward" . | trim | nindent 14 }}
-{{- include "volumes" (list . .Values.volumes) | trim | nindent 8 -}}
-{{- include "containers" .Values.containers | trim | nindent 8 -}}
+{{- include "volumes" (list . .Values.volumes) | trim | nindent 8 }}
+{{- include "containers" .Values.containers | trim | nindent 8 }}
 ---
 {{ include "services" . | trim}}

@@ -1,18 +1,18 @@
-{{- define "resource" -}}
+{{- define "resource" }}
 apiVersion: apps/v1
 kind: {{ index . 1 }}
 metadata:
-{{- include "resource.metadata" (index . 0) | trim | nindent 2 -}}
+{{- include "resource.metadata" (index . 0) | trim | nindent 2 }}
 {{- end }}
-{{- define "resource.named" -}}
-{{- $env := (index . 0) -}}
-{{- $kind := (index . 1) -}}
-{{- $name := (index . 2) -}}
+{{- define "resource.named" }}
+{{- $env := (index . 0) }}
+{{- $kind := (index . 1) }}
+{{- $name := (index . 2) }}
 {{- if (eq $kind "Service") }}
     {{- if $env.Values.namespace.env }}
-{{- $name = (printf "%s-%s-%s" $env.Chart.Name $name $env.Values.environment) -}}
+{{- $name = (printf "%s-%s-%s" $env.Chart.Name $name $env.Values.environment) }}
     {{- else }}
-{{- $name = (printf "%s-%s" $env.Chart.Name $name) -}}
+{{- $name = (printf "%s-%s" $env.Chart.Name $name) }}
     {{- end }}
 {{- end }}
 {{- if (eq $kind "Secret") }}
@@ -22,15 +22,15 @@ apiVersion: apps/v1
 {{- end }}
 kind: {{ $kind }}
 metadata:
-{{- include "resource.metadata.named" (list $env $name) | trim | nindent 2 -}}
+{{- include "resource.metadata.named" (list $env $name) | trim | nindent 2 }}
 {{- end }}
 
-{{- define "resource.metadata" -}}
+{{- define "resource.metadata" }}
 name: "{{ .Chart.Name }}-{{ .Values.environment }}"
 {{- include "namespace.tag" . | trim}}
 labels:
-{{- include "labels" . | trim | nindent 2 -}}
-{{- end -}}
+{{- include "labels" . | trim | nindent 2 }}
+{{- end }}
 
 {{ define "resource.metadata.named" }}
 {{- $env := (index . 0) }}

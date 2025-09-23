@@ -1,7 +1,7 @@
 {{- define "containers" }}
 containers:
 {{- range $cnt := . }}
-{{- include "container" $cnt | trim | nindent 2 -}}
+{{- include "container" $cnt | trim | nindent 2 }}
 {{- end }}
 {{- end }}
 {{- define "container" }}

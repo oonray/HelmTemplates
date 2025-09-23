@@ -1,6 +1,6 @@
 {{- define "volumes" }}
 volumes:
-{{- range $item := (index . 1) -}}
+{{- range $item := (index . 1) }}
     {{- if eq $item.type "secret" }}
 {{- include "volume.secret" (list (index $ 0) $item) | trim | nindent 2 }}
     {{- else }}
@@ -27,8 +27,8 @@ spec:
 {{- end }}
 
 {{- define "volume.secret" }}
-{{- $env := index . 0 -}}
-{{- $item := index . 1 -}}
+{{- $env := index . 0 }}
+{{- $item := index . 1 }}
 - name: {{ $item.name }}
   secret:
     secretName: {{ $env.Chart.Name }}-{{ $item.name }}-{{ $env.Values.environment }}
