@@ -17,6 +17,6 @@ env: "{{ .Values.environment }}"
 
 {{- define "sysctls.forward" -}}
 - name: net.ipv4.ip_forward
-  value: 1
+  value: "1"
 {{- end }}
 
