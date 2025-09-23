@@ -1,9 +1,10 @@
 {{ define "volumes" }}
-{{- range $item := (index . 1) -}}
+volumes:
+{{- range $item := (index . 1) }}
     {{- if eq $item.type "secret" }}
-{{- include "volume.secret" (list (index $ 0) $item) }}
+{{- include "volume.secret" (list (index $ 0) $item) | nindent 2}}
     {{- else }}
-{{- include "volume.pvc" $item }}
+{{- include "volume.pvc" $item | nindent 2 }}
     {{- end }}
 {{- end }}
 {{ end }}

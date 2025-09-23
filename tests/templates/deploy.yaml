@@ -5,10 +5,8 @@
         securityContext:
             sysctls:
 {{- include "sysctls.forward" . | nindent 14 }}
-        volumes:
-{{- include "volumes" (list . .Values.volumes) | nindent 10  }}
-    containers:
-{{- include "containers" .Values.containers | nindent 10 }}
+{{- include "volumes" (list . .Values.volumes) | nindent 8  }}
+{{- include "containers" .Values.containers | nindent 8 }}
 ---
 {{ include "secret" (list $ "vpn-config") }}
 stringData:
