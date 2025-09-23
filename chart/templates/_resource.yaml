@@ -27,7 +27,7 @@ metadata:
 
 {{ define "resource.metadata" }}
 name: "{{ .Chart.Name }}-{{ .Values.environment }}"
-{{- include "namespace.tag" . | trim }}
+{{ include "namespace.tag" . | trim }}
 labels:
 {{- include "labels" . | trim | nindent 2 }}
 {{ end }}
