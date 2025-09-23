@@ -8,7 +8,6 @@
 
 {{ define "service" }}
 {{ $cnt := index . 1}}
----
 {{- include "resource.named" (list (index . 0) "Service" $cnt.name ) | trim }}
 spec:
 {{- if hasKey $cnt "service" }}
