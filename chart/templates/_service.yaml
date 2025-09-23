@@ -1,7 +1,7 @@
 {{ define "services" }}
 {{- range $cnt := .Values.containers }}
     {{- if hasKey $cnt "ports" }}
-{{ include "service" (list $ $cnt) }}
+{{ include "service" (list $ $cnt) | trim }}
     {{- end }}
 {{- end }}
 {{ end }}
@@ -9,7 +9,7 @@
 {{ define "service" }}
 {{ $cnt := index . 1}}
 ---
-{{- include "resource.named" (list (index . 0) "Service" $cnt.name ) }}
+{{- include "resource.named" (list (index . 0) "Service" $cnt.name ) | trim }}
 spec:
 {{- if hasKey $cnt "service" }}
 {{- if hasKey $cnt.service "type" }}
@@ -17,10 +17,10 @@ spec:
 {{- end }}
   selector:
     matchLabels:
-{{- include "labels" (index . 0) | nindent 6 }}
+{{- include "labels" (index . 0) | trim | nindent 6 }}
   ports:
   {{- range $port := $cnt.ports }}
-{{- include "service.port.tcp" $port | nindent 4 }}
+{{- include "service.port.tcp" $port | trim | nindent 4 }}
   {{- end }}
 {{- end }}
 {{ end }}

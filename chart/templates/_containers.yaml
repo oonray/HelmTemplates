@@ -1,7 +1,7 @@
 {{- define "containers" }}
 containers:
 {{- range $cnt := . }}
-{{- include "container" $cnt | nindent 2 -}}
+{{- include "container" $cnt | trim | nindent 2 -}}
 {{- end }}
 {{- end }}
 {{- define "container" }}
@@ -31,11 +31,11 @@ containers:
   {{- end }}
   ports:
     {{- range $port := .ports }}
-    {{- include "container.port.tcp" $port | nindent 4 }}
+    {{- include "container.port.tcp" $port | trim | nindent 4 }}
     {{- end }}
   volumeMounts:
     {{- range $pvc := .volumes }}
-        {{- include "container.volume" $pvc | nindent 4 }}
+        {{- include "container.volume" $pvc | trim | nindent 4 }}
     {{- end }}
 {{- end }}
 {{- define "container.port.tcp" }}
@@ -55,4 +55,3 @@ containers:
   subPath: {{ .sub }}
   {{- end }}
 {{- end }}
-

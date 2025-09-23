@@ -1,17 +1,17 @@
 {{- define "deploy" }}
-{{- include "resource" (list . "Deployment" ) }}
+{{- include "resource" (list . "Deployment" ) | trim }}
 spec:
   selector:
     matchLabels:
-{{- include "labels" . | nindent 8 }}
+{{- include "labels" . | trim | nindent 8 }}
   template:
     metadata:
       labels:
-{{- include "labels" . | nindent 10 }}
+{{- include "labels" . | trim | nindent 10 }}
 {{- end }}
 {{- define "deploy.dns" }}
-{{- if hasKey .Values "dnsConfig" -}}
+{{- if hasKey .Values "dnsConfig" }}
 dnsConfig:
-{{- toYaml .Values.dnsConfig | nindent 4 }}
-    {{- end -}}
+{{- toYaml .Values.dnsConfig | trim | nindent 4 }}
+    {{- end }}
 {{- end }}

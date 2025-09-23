@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: {{ index . 1 }}
 metadata:
-{{- include "resource.metadata" (index . 0) | nindent 2 -}}
+{{- include "resource.metadata" (index . 0) | trim | nindent 2 -}}
 {{- end }}
 {{- define "resource.named" -}}
 {{- $env := (index . 0) -}}
@@ -22,20 +22,20 @@ apiVersion: apps/v1
 {{- end }}
 kind: {{ $kind }}
 metadata:
-{{- include "resource.metadata.named" (list $env $name) | nindent 2 -}}
+{{- include "resource.metadata.named" (list $env $name) | trim | nindent 2 -}}
 {{- end }}
 
 {{- define "resource.metadata" -}}
 name: "{{ .Chart.Name }}-{{ .Values.environment }}"
-{{- include "namespace.tag" . -}}
+{{- include "namespace.tag" . | trim}}
 labels:
-{{- include "labels" . | nindent 2 -}}
+{{- include "labels" . | trim | nindent 2 -}}
 {{- end -}}
 
 {{ define "resource.metadata.named" }}
 {{- $env := (index . 0) }}
 name: "{{ index . 1 }}"
-{{- include "namespace.tag" $env }}
+{{- include "namespace.tag" $env | trim }}
 labels:
-{{- include "labels" $env | nindent 2 }}
+{{- include "labels" $env | trim | nindent 2 }}
 {{- end }}

@@ -2,20 +2,20 @@
 volumes:
 {{- range $item := (index . 1) -}}
     {{- if eq $item.type "secret" }}
-{{- include "volume.secret" (list (index $ 0) $item) | nindent 2 }}
+{{- include "volume.secret" (list (index $ 0) $item) | trim | nindent 2 }}
     {{- else }}
-{{- include "volume.pvc" $item | nindent 2 }}
+{{- include "volume.pvc" $item | trim | nindent 2 }}
     {{- end }}
 {{- end }}
 {{- end }}
 
 {{- define "volume" }}
 {{- $vol := index . 1 }}
-{{- include "resource.named" (list (index . 0) "PersistentVolumeClaim" $vol.claim ) }}
+{{- include "resource.named" (list (index . 0) "PersistentVolumeClaim" $vol.claim ) | trim }}
 spec:
   storageClassName: {{ $vol.class }}
   accessModes:
-{{ $vol.access | toYaml | nindent 4 }}
+{{ $vol.access | toYaml | trim | nindent 4 }}
   resources:
     requests:
       storage: {{ $vol.size }}
@@ -33,5 +33,5 @@ spec:
   secret:
     secretName: {{ $env.Chart.Name }}-{{ $item.name }}-{{ $env.Values.environment }}
   items:
-  {{- $item.items | toYaml | nindent 6 -}}
+  {{- $item.items | toYaml | trim | nindent 6 }}
 {{- end }}
