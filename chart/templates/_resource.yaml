@@ -5,19 +5,21 @@ metadata:
 {{- include "resource.metadata" (index . 0) | nindent 2 -}}
 {{- end -}}
 
-{{- define "resource.v1" -}}
-apiVersion: v1
-kind: {{ index . 1 }}
-metadata:
-{{- include "resource.metadata" (index . 0) | nindent 2 -}}
-{{- end -}}
-
 {{- define "resource.named" -}}
+{{- $env := (index . 0) -}}
 {{- $kind := (index . 1) -}}
+{{- $name := (index . 2) -}}
+{{- if (eq $kind "Service") }}
+    {{- if $env.Values.namespace.env }}
+{{- $name = (printf "%s-%s-%s" $env.Chart.Name $name $env.Values.environment) -}}
+    {{- else }}
+{{- $name = (printf "%s-%s" $env.Chart.Name $name) -}}
+    {{- end }}
+{{- end }}
 apiVersion: apps/v1
 kind: {{ $kind }}
 metadata:
-{{- include "resource.metadata.named" (list (index . 0) (index . 2)) | nindent 2 -}}
+{{- include "resource.metadata.named" (list $env $name) | nindent 2 -}}
 {{- end }}
 
 {{- define "resource.metadata" -}}
@@ -29,7 +31,7 @@ labels:
 
 {{ define "resource.metadata.named" }}
 {{- $env := (index . 0) }}
-name: "{{ $env.Chart.Name }}-{{ index . 1 }}-{{ $env.Values.environment }}"
+name: "{{ index . 1 }}"
 {{- include "namespace.tag" $env }}
 labels:
 {{- include "labels" $env | nindent 2 }}
