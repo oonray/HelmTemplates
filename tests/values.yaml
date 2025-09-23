@@ -1,0 +1,67 @@
+# Default values for vpn.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+environment: vpn
+replicaCount: 1
+
+namespace:
+  create: true
+  env: true
+
+dnsConfig:
+  nameservers:
+    - 10.164.0.68
+    - 10.43.0.10
+    - 172.16.200.1
+
+volumes:
+  - name: vpn-config
+    type: secret
+    items:
+      - key: vpn.ovpn
+        path: vpn.ovpn
+      - key: danted.conf
+        path: danted.conf
+  - name: kali-st
+    claim: kali-cl
+    path: /home/kali/storage
+    target: kali
+    type: pvc
+    class: longhorn
+    access:
+        - ReadWriteMany
+
+containers:
+  - name: vpn
+    image:
+      name: oonray/vpn
+      version: latest
+    priveleged: true
+    pull: Always
+    service:
+      type: NodePort
+    ports:
+      - name: socks
+        port: 1080
+        protocol: TCP
+    volumes:
+      - path: /opt/conf/test
+        name: vpn-config
+      - path: /opt/conf/vpn/vpn.ovpn
+        name: vpn-config
+        sub: vpn.ovpn
+      - path: /etc/danted.conf
+        name: vpn-config
+        sub: danted.conf
+
+vpnFile: --set-file vpnFile=vpn.ovpn
+config:
+  dante:
+    log: stdout
+    user: nobody
+    network:
+      method: none
+      from: 0.0.0.0/0
+      to: 0.0.0.0/0
+      internal: 0.0.0.0
+      external: tun0

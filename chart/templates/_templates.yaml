@@ -1,0 +1,22 @@
+{{- define "labels" -}}
+app: "{{ .Chart.Name }}"
+env: "{{ .Values.environment }}"
+{{- end }}
+
+{{- define "labels.app" }}
+app: "{{ .Chart.Name }}"
+{{- end }}
+
+{{- define "labels.environment" }}
+env: "{{ .Values.environment }}"
+{{- end }}
+
+{{- define "labels.extra" -}}
+{{- toYaml .Values.lables }}
+{{- end }}
+
+{{- define "sysctls.forward" -}}
+- name: net.ipv4.ip_forward
+  value: 1
+{{- end }}
+

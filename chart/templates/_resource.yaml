@@ -1,0 +1,36 @@
+{{- define "resource" -}}
+apiVersion: apps/v1
+kind: {{ index . 1 }}
+metadata:
+{{- include "resource.metadata" (index . 0) | nindent 2 -}}
+{{- end -}}
+
+{{- define "resource.v1" -}}
+apiVersion: v1
+kind: {{ index . 1 }}
+metadata:
+{{- include "resource.metadata" (index . 0) | nindent 2 -}}
+{{- end -}}
+
+{{- define "resource.named" -}}
+{{- $kind := (index . 1) -}}
+apiVersion: apps/v1
+kind: {{ $kind }}
+metadata:
+{{- include "resource.metadata.named" (list (index . 0) (index . 2)) | nindent 2 -}}
+{{- end }}
+
+{{- define "resource.metadata" -}}
+name: "{{ .Chart.Name }}-{{ .Values.environment }}"
+{{- include "namespace.tag" . -}}
+labels:
+{{- include "labels" . | nindent 2 -}}
+{{- end -}}
+
+{{ define "resource.metadata.named" }}
+{{- $env := (index . 0) }}
+name: "{{ $env.Chart.Name }}-{{ index . 1 }}-{{ $env.Values.environment }}"
+{{- include "namespace.tag" $env }}
+labels:
+{{- include "labels" $env | nindent 2 }}
+{{ end }}

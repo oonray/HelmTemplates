@@ -1,16 +1,15 @@
-{{ define "containers" }}
+{{- define "containers" }}
 {{- range $cnt := . }}
-{{ include "container" $cnt }}
+{{- include "container" $cnt }}
+{{- end -}}
 {{- end }}
-{{ end }}
 
 {{- define "container" }}
 - name: {{ .name | quote }}
   image: {{ printf "%s:%s" .image.name .image.version | quote }}
-
-  {{- if hasKey . "tty" }}
+  {{- if hasKey . "tty" -}}
   tty: {{ .tty }}
-  {{- end }}
+  {{- end -}}
 
   {{- if hasKey . "stdin" }}
   tty: {{ .tty }}
