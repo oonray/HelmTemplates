@@ -3,8 +3,7 @@ apiVersion: apps/v1
 kind: {{ index . 1 }}
 metadata:
 {{- include "resource.metadata" (index . 0) | nindent 2 -}}
-{{- end -}}
-
+{{- end }}
 {{- define "resource.named" -}}
 {{- $env := (index . 0) -}}
 {{- $kind := (index . 1) -}}
@@ -39,4 +38,4 @@ name: "{{ index . 1 }}"
 {{- include "namespace.tag" $env }}
 labels:
 {{- include "labels" $env | nindent 2 }}
-{{ end }}
+{{- end }}

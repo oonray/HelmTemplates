@@ -1,6 +1,6 @@
 dependencies:
 - name: templates
   repository: file://../chart
-  version: 1.7.6
-digest: sha256:be7957353bb1124751d7be14c431d031295343dc65d4aec3e4a212d9d610bd0d
-generated: "2025-09-23T08:10:03.640253553Z"
+  version: 1.7.7
+digest: sha256:13aa33ed1139fd20af13a362ddcb5c83a49efe06674b4c409b2ea518fc14a1ea
+generated: "2025-09-23T11:22:28.964756051Z"

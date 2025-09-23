@@ -11,27 +11,27 @@
 ---
 {{- include "resource.named" (list (index . 0) "Service" $cnt.name ) }}
 spec:
+{{- if hasKey $cnt "service" }}
+{{- if hasKey $cnt.service "type" }}
+  type: {{ $cnt.service.type }}
+{{- end }}
   selector:
-{{ include "labels" (index . 0) | nindent 4 }}
+    matchLabels:
+{{- include "labels" (index . 0) | nindent 6 }}
   ports:
   {{- range $port := $cnt.ports }}
-{{ include "service.port.tcp" $port | nindent 4 }}
+{{- include "service.port.tcp" $port | nindent 4 }}
   {{- end }}
-{{- if hasKey $cnt "service" }}
-    {{- if hasKey $cnt.service "type" }}
-  type: {{ $cnt.service.type }}
-    {{- end }}
 {{- end }}
 {{ end }}
 
 {{- define "service.port.tcp" }}
-            - port: {{ .port }}
-              targetPort: {{ .name }}
-              protocol: TCP
+- port: {{ .port }}
+  targetPort: {{ .name }}
+  protocol: TCP
 {{- end }}
-
 {{- define "service.port.udp" }}
-            - port: {{ .port }}
-              targetPort: {{ .name }}
-              protocol: TCP
+- port: {{ .port }}
+  targetPort: {{ .name }}
+  protocol: TCP
 {{- end }}

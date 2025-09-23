@@ -1,15 +1,15 @@
-{{ define "volumes" }}
+{{- define "volumes" }}
 volumes:
-{{- range $item := (index . 1) }}
+{{- range $item := (index . 1) -}}
     {{- if eq $item.type "secret" }}
-{{- include "volume.secret" (list (index $ 0) $item) | nindent 2}}
+{{- include "volume.secret" (list (index $ 0) $item) | nindent 2 }}
     {{- else }}
 {{- include "volume.pvc" $item | nindent 2 }}
     {{- end }}
 {{- end }}
-{{ end }}
+{{- end }}
 
-{{ define "volume" }}
+{{- define "volume" }}
 {{- $vol := index . 1 }}
 {{- include "resource.named" (list (index . 0) "PersistentVolumeClaim" $vol.claim ) }}
 spec:
@@ -19,15 +19,14 @@ spec:
   resources:
     requests:
       storage: {{ $vol.size }}
-{{ end }}
-
-{{ define "volume.pvc" }}
+{{- end }}
+{{- define "volume.pvc" }}
 - name: {{ .name }}
   persistentVolumeClaim:
     claimName: {{ .claim }}
 {{- end }}
 
-{{ define "volume.secret" }}
+{{- define "volume.secret" }}
 {{- $env := index . 0 -}}
 {{- $item := index . 1 -}}
 - name: {{ $item.name }}
