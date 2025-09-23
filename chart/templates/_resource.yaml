@@ -35,7 +35,7 @@ labels:
 {{ define "resource.metadata.named" }}
 {{- $env := (index . 0) }}
 name: "{{ index . 1 }}"
-{{- include "namespace.tag" $env | trim }}
+{{ include "namespace.tag" $env | trim }}
 labels:
 {{- include "labels" $env | trim | nindent 2 }}
 {{ end }}
