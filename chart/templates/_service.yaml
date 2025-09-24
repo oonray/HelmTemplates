@@ -15,7 +15,6 @@ spec:
   type: {{ $cnt.service.type }}
 {{- end }}
   selector:
-    matchLabels:
 {{- include "labels" (index . 0) | trim | nindent 6 }}
   ports:
   {{- range $port := $cnt.ports }}
