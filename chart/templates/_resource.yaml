@@ -1,7 +1,6 @@
 {{ define "resource" }}
 {{- $env := (index . 0) }}
 {{- $kind := (index . 1) }}
-{{- $name := (index . 2) }}
 {{- include "resource.version" (list $kind) | trim }}
 kind: {{ index . 1 }}
 metadata:
