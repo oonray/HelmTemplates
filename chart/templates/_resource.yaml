@@ -40,14 +40,6 @@ apiVersion: apps/v1
 {{- end }}
 {{ end }}
 
-{{ define "resource.version" }}
-{{- if (eq . "Service") or (eq . "Secret") }}
-apiVersion: v1
-{{- else }}
-apiVersion: apps/v1
-{{- end }}
-{{ end }}
-
 {{ define "resource.metadata.named" }}
 {{- $env := (index . 0) }}
 name: "{{ index . 1 }}"
