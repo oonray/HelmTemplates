@@ -1,4 +1,7 @@
 {{ define "resource" }}
+{{- $env := (index . 0) }}
+{{- $kind := (index . 1) }}
+{{- $name := (index . 2) }}
 {{- if (eq $kind "Service") }}
 apiVersion: v1
 {{- else }}
@@ -9,9 +12,6 @@ metadata:
 {{- include "resource.metadata" (index . 0) | trim | nindent 2 }}
 {{ end }}
 {{ define "resource.named" }}
-{{- $env := (index . 0) }}
-{{- $kind := (index . 1) }}
-{{- $name := (index . 2) }}
 {{- if (eq $kind "Service") }}
     {{- if $env.Values.namespace.env }}
 {{- $name = (printf "%s-%s-%s" $env.Chart.Name $name $env.Values.environment) }}
