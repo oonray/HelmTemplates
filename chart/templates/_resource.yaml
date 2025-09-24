@@ -2,16 +2,16 @@
 {{- $env := (index . 0) }}
 {{- $kind := (index . 1) }}
 {{- $name := (index . 2) }}
-{{- if (eq $kind "Service") }}
-apiVersion: v1
-{{- else }}
-apiVersion: apps/v1
-{{- end }}
+{{- include "resource.version" $kind | trim }}
 kind: {{ index . 1 }}
 metadata:
-{{- include "resource.metadata" (index . 0) | trim | nindent 2 }}
+{{- include "resource.metadata" $env | trim | nindent 2 }}
 {{ end }}
+
 {{ define "resource.named" }}
+{{- $env := (index . 0) }}
+{{- $kind := (index . 1) }}
+{{- $name := (index . 2) }}
 {{- if (eq $kind "Service") }}
     {{- if $env.Values.namespace.env }}
 {{- $name = (printf "%s-%s-%s" $env.Chart.Name $name $env.Values.environment) }}
@@ -19,11 +19,7 @@ metadata:
 {{- $name = (printf "%s-%s" $env.Chart.Name $name) }}
     {{- end }}
 {{- end }}
-{{- if (eq $kind "Secret") }}
-apiVersion: v1
-{{- else }}
-apiVersion: apps/v1
-{{- end }}
+{{- include "resource.version" $kind | trim }}
 kind: {{ $kind }}
 metadata:
 {{- include "resource.metadata.named" (list $env $name) | trim | nindent 2 }}
@@ -34,6 +30,22 @@ name: "{{ .Chart.Name }}-{{ .Values.environment }}"
 {{ include "namespace.tag" . | trim }}
 labels:
 {{- include "labels" . | trim | nindent 2 }}
+{{ end }}
+
+{{ define "resource.version" }}
+{{- if (eq . "Service") or (eq . "Secret") }}
+apiVersion: v1
+{{- else }}
+apiVersion: apps/v1
+{{- end }}
+{{ end }}
+
+{{ define "resource.version" }}
+{{- if (eq . "Service") or (eq . "Secret") }}
+apiVersion: v1
+{{- else }}
+apiVersion: apps/v1
+{{- end }}
 {{ end }}
 
 {{ define "resource.metadata.named" }}
