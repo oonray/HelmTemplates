@@ -11,10 +11,7 @@ metadata:
 {{- $env := (index . 0) }}
 {{- $kind := (index . 1) }}
 {{- $name := (index . 2) }}
-{{- $name = (printf "%s-%s" $env.Chart.Name $name) }}
-{{- if or $env.Values.namespace.env (eq $kind "Service")}}
-{{- $name = (printf "%s-%s" $name $env.Values.environment) }}
-{{- end }}
+{{- $name = (printf "%s-%s-%s" $env.Chart.Name $name $env.Values.environment) }}
 {{- include "resource.version" (list $kind) | trim }}
 kind: {{ $kind }}
 metadata:
