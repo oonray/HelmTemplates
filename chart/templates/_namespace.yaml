@@ -1,26 +1,8 @@
 {{ define "namespace" }}
 {{- if hasKey .Values.namespace "name" }}
-apiVersion: v1
-kind: Namespace
-metadata:
-    {{- if .Values.namespace.env }}
-  name: "{{ .Values.namespace.name }}-{{ .Values.environment }}"
-    {{- else }}
-  name: "{{ .Values.namespace.name }}"
-    {{- end }}
-  labels:
-{{ include "labels.environment" . | nindent 4 }}
+{{- include "resource.named" (list . "Namespace" .Values.namespace.name ) | trim }}
 {{- else }}
-apiVersion: v1
-kind: Namespace
-metadata:
-   {{- if .Values.namespace.env }}
-  name: "{{ .Chart.Name }}-{{ .Values.environment }}"
-   {{- else }}
-  name: "{{ .Chart.Name }}"
-   {{- end }}
-  labels:
-{{ include "labels.environment" . | nindent 4 }}
+{{- include "resource" (list . "Namespace" ) | trim }}
 {{- end }}
 {{- end }}
 

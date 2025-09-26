@@ -29,10 +29,14 @@ labels:
 
 {{ define "resource.version" }}
 {{- $kind := (index . 0) }}
-{{- if or (eq $kind "Service") (eq $kind "Secret") }}
-apiVersion: v1
-{{- else }}
+{{- if eq $kind "Deployment") }}
 apiVersion: apps/v1
+{{- else }}
+    {{- if contains $kind "IngressRoute") }}
+apiVersion: "traefik.io/v1"
+    {{- else }}
+apiVersion: v1
+    {{- end }}
 {{- end }}
 {{ end }}
 
