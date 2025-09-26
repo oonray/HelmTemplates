@@ -2,6 +2,7 @@
 {{- $env := (index . 0) }}
 {{- $kind := (index . 1) }}
 {{- include "resource.version" (list $kind) | trim }}
+---
 kind: {{ $kind }}
 metadata:
 {{- include "resource.metadata" $env | trim | nindent 2 }}
@@ -13,6 +14,7 @@ metadata:
 {{- $name := (index . 2) }}
 {{- $name = (printf "%s-%s-%s" $env.Chart.Name $name $env.Values.environment) }}
 {{- include "resource.version" (list $kind) | trim }}
+---
 kind: {{ $kind }}
 metadata:
 {{- include "resource.metadata.named" (list $env $name) | trim | nindent 2 }}
